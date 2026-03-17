@@ -46,6 +46,7 @@
 
 <button type="submit">Calcular</button>
 
+{% if not resultado %}
 <div class="box" style="text-align:left; font-family: monospace;">
 <pre>
 ============================================================
@@ -61,6 +62,7 @@
 ============================================================
 </pre>
 </div>
+{% endif %}
 
 </form>
 </div>
@@ -93,7 +95,23 @@ Nivel                          : <span style="color: {{ resultado.color }}">{{ r
       0    1    2    3    4
 
 {% for val in resultado.scores %}
-Proc {{ loop.index }}    {{ "#####################"[:val*5] }} {{ val }}
+{% if val == 4 %}
+    {% set color = "#22c55e" %}
+{% elif val == 3 %}
+    {% set color = "#f59e0b" %}
+{% elif val == 2 %}
+    {% set color = "#eab308" %}
+{% elif val == 1 %}
+    {% set color = "#ef4444" %}
+{% else %}
+    {% set color = "#9ca3af" %}
+{% endif %}
+
+Proc {{ loop.index }}    
+<span style="color: {{ color }}">
+{{ "#####################"[:val*5] }}
+</span> {{ val }}
+
 {% endfor %}
 
 Calidad Info     {{ "#####################"[:resultado.calidad*5] }} {{ resultado.calidad }}
@@ -117,16 +135,30 @@ function generar(){
     const n = document.getElementById("proc").value;
     let html = "";
 
-    for(let i=1; i<=n; i++){
-        html += `<input type="number" name="proc${i}" min="0" max="4" placeholder="Procedimiento ${i}" required>`;
+    function selectHTML(name, label){
+        return `
+        <label>${label}</label>
+        <select name="${name}" required>
+            <option value="">Seleccionar...</option>
+            <option value="4">4 - Bueno</option>
+            <option value="3">3 - Satisfactorio</option>
+            <option value="2">2 - Parcialmente satisfactorio</option>
+            <option value="1">1 - No satisfactorio</option>
+            <option value="0">0 - No aplica</option>
+        </select>
+        `;
     }
 
-    html += `<input type="number" name="calidad" min="0" max="4" placeholder="Calidad información" required>`;
-    html += `<input type="number" name="entrega" min="0" max="4" placeholder="Entrega oportuna" required>`;
+    for(let i=1; i<=n; i++){
+        html += selectHTML(`proc${i}`, `Procedimiento ${i}`);
+    }
+
+    html += "<hr>";
+    html += selectHTML("calidad", "Calidad de la información");
+    html += selectHTML("entrega", "Entrega oportuna");
 
     document.getElementById("inputs").innerHTML = html;
-}
-</script>
+}</script>
 
 </body>
 </html>
