@@ -104,9 +104,7 @@ Nivel                          : <span style="color: {{ resultado.color }}">{{ r
 {% endif %}
 
 Proc {{ loop.index }}    
-<span style="color: {{ color }}">
-{{ "#####################"[:val*5] }}
-</span> {{ val }}
+<span style="color: {{ color }}">{{ "#####################"[:val*5] }}{{ val }}</span> 
 
 {% endfor %}
 
