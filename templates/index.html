@@ -46,18 +46,72 @@
 
 <button type="submit">Calcular</button>
 
+<div class="box" style="text-align:left; font-family: monospace;">
+<pre>
+============================================================
+                LEYENDA DE CALIFICACION
+============================================================
+
+4 = Bueno [sin debilidades]
+3 = Satisfactorio [mejoras minimas]
+2 = Parcialmente satisfactorio [mejoras significativas]
+1 = No satisfactorio
+0 = No aplica / No evaluado
+
+============================================================
+</pre>
+</div>
+
 </form>
 </div>
 
 {% if resultado %}
-<div class="box">
-    <h2>Resultado</h2>
-    <p>Auditoría: {{ resultado.auditoria }}</p>
-    <p>Promedio: {{ resultado.promedio }}</p>
-    <p class="{{ resultado.color }}">Nivel: {{ resultado.nivel }}</p>
+<div class="box" style="text-align:left; font-family: monospace;">
+
+<pre>
+============================================================
+                RESULTADO DE AUDITORIA
+============================================================
+
+Auditoria                      : {{ resultado.auditoria }}
+Procedimientos                 : {{ resultado.scores|length }}
+Pasos de calificacion adicional: 2
+Total de items evaluados       : {{ resultado.scores|length + 2 }}
+Suma total de puntos           : {{ (resultado.promedio * (resultado.scores|length + 2))|round(0) }}
+Puntuacion Final               : <span style="color: {{ resultado.color }}">{{ resultado.promedio }}</span>
+Nivel                          : <span style="color: {{ resultado.color }}">{{ resultado.nivel }}</span>
+
+-------------- MATRIZ DE REFERENCIA ---------------
+<span style="color:#22c55e">4.00 - 3.51</span>  = BUENO
+<span style="color:#f59e0b">3.50 - 3.01</span>  = SATISFACTORIO
+<span style="color:#eab308">3.00 - 2.51</span>  = PARCIALMENTE SATISFACTORIO
+<span style="color:#ef4444">2.50 - 0.00</span>  = NO SATISFACTORIO
+---------------------------------------------------
+
+============ GRAFICA DE CALIFICACIONES ============
+
+      0    1    2    3    4
+
+{% for val in resultado.scores %}
+Proc {{ loop.index }}    {{ "#####################"[:val*5] }} {{ val }}
+{% endfor %}
+
+Calidad Info     {{ "#####################"[:resultado.calidad*5] }} {{ resultado.calidad }}
+Entrega Oport.   {{ "#####################"[:resultado.entrega*5] }} {{ resultado.entrega }}
+
+      0    1    2    3    4
+
+---------------------------------------------------
+<span style="color: {{ resultado.color }}">
+PROMEDIO FINAL: {{ resultado.promedio }} -- {{ resultado.nivel }}
+</span>
+---------------------------------------------------
+
+====================================================
+</pre>
+
 </div>
 {% endif %}
-
 <script>
 function generar(){
     const n = document.getElementById("proc").value;
