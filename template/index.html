@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Auditoría</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: #22c55e;
+            text-align: center;
+        }
+        .box {
+            background: #111827;
+            padding: 20px;
+            margin: 30px auto;
+            width: 400px;
+            border-radius: 10px;
+        }
+        input, select, button {
+            padding: 10px;
+            margin: 5px;
+            width: 90%;
+        }
+        button {
+            background: #22c55e;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>GAS - Calculadora de Auditoría</h1>
+
+    <div class="box">
+        <form method="POST">
+            <input type="text" name="auditoria" placeholder="Nombre de auditoría" required>
+
+            <select name="tipo">
+                <option value="numero">Buscar por número</option>
+                <option value="texto">Buscar por texto</option>
+            </select>
+
+            <input type="number" name="numero" placeholder="Número (1-64)">
+            <input type="text" name="texto" placeholder="Descripción aproximada">
+
+            <button type="submit">Calcular</button>
+        </form>
+    </div>
+
+    {% if resultado %}
+    <div class="box">
+        <h2>Resultado</h2>
+        <p><b>Auditoría:</b> {{ resultado.auditoria }}</p>
+        <p><b>Paso:</b> {{ resultado.paso }}</p>
+        <p><b>Descripción:</b> {{ resultado.descripcion }}</p>
+        <p><b>Avance:</b> {{ resultado.avance }}%</p>
+        <p><b>Fecha:</b> {{ resultado.fecha }}</p>
+    </div>
+    {% endif %}
+
+</body>
+</html>
