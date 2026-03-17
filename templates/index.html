@@ -27,6 +27,7 @@
             cursor: pointer;
         }
     </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -70,6 +71,39 @@
         <p><b>Fecha:</b> {{ resultado.fecha }}</p>
     </div>
     {% endif %}
+<canvas id="grafico" width="300" height="300"></canvas>
 
 </body>
+<script>
+{% if resultado %}
+const avance = {{ resultado.avance }};
+
+const ctx = document.getElementById('grafico').getContext('2d');
+
+new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Avance', 'Pendiente'],
+        datasets: [{
+            data: [avance, 100 - avance],
+            backgroundColor: [
+                '#22c55e',
+                '#374151'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        cutout: '70%',
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#22c55e'
+                }
+            }
+        }
+    }
+});
+{% endif %}
+</script>
 </html>
