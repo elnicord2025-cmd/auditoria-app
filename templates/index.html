@@ -54,7 +54,19 @@
         <p><b>Auditoría:</b> {{ resultado.auditoria }}</p>
         <p><b>Paso:</b> {{ resultado.paso }}</p>
         <p><b>Descripción:</b> {{ resultado.descripcion }}</p>
-        <p><b>Avance:</b> {{ resultado.avance }}%</p>
+        <div style="background: #374151; border-radius: 10px; width: 100%; height: 25px; overflow: hidden;">
+    <div style="
+        background: linear-gradient(90deg, #22c55e, #4ade80);
+        width: {{ resultado.avance }}%;
+        height: 100%;
+        border-radius: 10px;
+        text-align: center;
+        color: black;
+        font-weight: bold;
+        transition: width 0.5s;">
+        {{ resultado.avance }}%
+    </div>
+</div>
         <p><b>Fecha:</b> {{ resultado.fecha }}</p>
     </div>
     {% endif %}
