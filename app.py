@@ -81,38 +81,41 @@ def index():
         tipo = request.form.get("tipo")
 
         if tipo == "numero":
-            num = int(request.form.get("numero", 0))
-            if 1 <= num <= TOTAL:
-                porc = round((num / TOTAL) * 100)
-                resultado = {
-                    "auditoria": auditoria,
-                    "paso": num,
-                    "descripcion": steps.get(num, "Sin definir"),
-                    "avance": porc,
-                    "fecha": datetime.datetime.now()
-                }
+            numero = int(request.form.get("numero"))
+
+            descripcion = pasos.get(numero, "Sin definir")
+
+            avance = int((numero / TOTAL) * 100)
+
+            resultado = {
+                "auditoria": auditoria,
+                "paso": numero,
+                "descripcion": descripcion,
+                "avance": avance,
+                "fecha": datetime.now().strftime("%Y-%m-%d")
+            }
 
         elif tipo == "texto":
-            texto = request.form.get("texto", "").lower()
-            encontrado = None
+            texto = request.form.get("texto").lower()
 
-            for i in range(1, TOTAL + 1):
-                if texto in steps.get(i, "").lower():
+            encontrado = 0
+            descripcion = "Sin definir"
+
+            for i, desc in pasos.items():
+                if texto in desc.lower():
                     encontrado = i
+                    descripcion = desc
                     break
 
-            if encontrado:
-                porc = round((encontrado / TOTAL) * 100)
+            if encontrado > 0:
+                avance = int((encontrado / TOTAL) * 100)
+
                 resultado = {
                     "auditoria": auditoria,
                     "paso": encontrado,
-                    "descripcion": steps[encontrado],
-                    "avance": porc,
-                    "fecha": datetime.datetime.now()
+                    "descripcion": descripcion,
+                    "avance": avance,
+                    "fecha": datetime.now().strftime("%Y-%m-%d")
                 }
 
     return render_template("index.html", resultado=resultado)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
