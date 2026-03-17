@@ -95,14 +95,10 @@ Nivel                          : <span style="color: {{ resultado.color }}">{{ r
       0    1    2    3    4
 
 {% for val in resultado.scores %}
-{% if val == 4 %}
-    {% set color = "#22c55e" %}
-{% elif val == 3 %}
-    {% set color = "#f59e0b" %}
-{% elif val == 2 %}
-    {% set color = "#eab308" %}
-{% elif val == 1 %}
-    {% set color = "#ef4444" %}
+{% if val == 4 %}{% set color = "#22c55e" %}
+{% elif val == 3 %}{% set color = "#f59e0b" %}
+{% elif val == 2 %}{% set color = "#eab308" %}
+{% elif val == 1 %}{% set color = "#ef4444" %}
 {% else %}
     {% set color = "#9ca3af" %}
 {% endif %}
@@ -114,9 +110,29 @@ Proc {{ loop.index }}
 
 {% endfor %}
 
-Calidad Info     {{ "#####################"[:resultado.calidad*5] }} {{ resultado.calidad }}
-Entrega Oport.   {{ "#####################"[:resultado.entrega*5] }} {{ resultado.entrega }}
+{% set val = resultado.calidad %}
+{% if val == 4 %}{% set color = "#22c55e" %}
+{% elif val == 3 %}{% set color = "#f59e0b" %}
+{% elif val == 2 %}{% set color = "#eab308" %}
+{% elif val == 1 %}{% set color = "#ef4444" %}
+{% else %}{% set color = "#9ca3af" %}
+{% endif %}
+Calidad Info     
+<span style="color: {{ color }}">
+{{ "#####################"[:val*5] }}
+</span> {{ val }}
 
+{% set val = resultado.entrega %}
+{% if val == 4 %}{% set color = "#22c55e" %}
+{% elif val == 3 %}{% set color = "#f59e0b" %}
+{% elif val == 2 %}{% set color = "#eab308" %}
+{% elif val == 1 %}{% set color = "#ef4444" %}
+{% else %}{% set color = "#9ca3af" %}
+{% endif %}
+Entrega Oport.   
+<span style="color: {{ color }}">
+{{ "#####################"[:val*5] }}
+</span> {{ val }}
       0    1    2    3    4
 
 ---------------------------------------------------
