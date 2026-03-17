@@ -50,7 +50,7 @@
 
         <input type="text" name="auditoria" placeholder="Nombre de auditoría" required>
 
-        <select name="tipo">
+        <select name="tipo" onchange="toggleCampos()">
             <option value="numero">Buscar por número</option>
             <option value="texto">Buscar por texto</option>
         </select>
@@ -72,33 +72,30 @@
     <p><b>Paso:</b> {{ resultado.paso }}</p>
     <p><b>Descripción:</b> {{ resultado.descripcion }}</p>
 
-    <!-- Barra de progreso -->
-    <div style="background: #374151; border-radius: 10px; width: 100%; height: 25px; overflow: hidden;">
+    <!-- Barra -->
+    <div style="background: #374151; border-radius: 10px; height: 25px;">
         <div style="
             background: linear-gradient(90deg, #22c55e, #4ade80);
             width: {{ resultado.avance }}%;
             height: 100%;
-            border-radius: 10px;
             text-align: center;
             color: black;
-            font-weight: bold;
-            transition: width 0.5s;">
+            font-weight: bold;">
             {{ resultado.avance }}%
         </div>
     </div>
 
     <p><b>Fecha:</b> {{ resultado.fecha }}</p>
 
-    <!-- Gráfico -->
-    <canvas id="grafico" width="300" height="300"></canvas>
+    <canvas id="grafico"></canvas>
 </div>
 {% endif %}
 
-<!-- SCRIPT GRAFICO -->
-<script>
+<!-- GRAFICO -->
 {% if resultado %}
-const avance = {{ resultado.avance }};
+<script>
 const ctx = document.getElementById('grafico').getContext('2d');
+const avance = {{ resultado.avance }};
 
 new Chart(ctx, {
     type: 'doughnut',
@@ -106,25 +103,17 @@ new Chart(ctx, {
         labels: ['Avance', 'Pendiente'],
         datasets: [{
             data: [avance, 100 - avance],
-            backgroundColor: ['#22c55e', '#374151'],
-            borderWidth: 1
+            backgroundColor: ['#22c55e', '#374151']
         }]
     },
     options: {
-        cutout: '70%',
-        plugins: {
-            legend: {
-                labels: {
-                    color: '#22c55e'
-                }
-            }
-        }
+        cutout: '70%'
     }
 });
-{% endif %}
 </script>
+{% endif %}
 
-<!-- PASOS COMPLETOS -->
+<!-- PASOS -->
 <script>
 const pasos = {
 1: "Elegir la auditoria por el plan anual de auditorias",
@@ -143,54 +132,54 @@ const pasos = {
 14: "Gerente de auditoria envia carta de inicio de la auditoria",
 15: "Preparar requerimientos para enviar al area",
 16: "Envio de requerimientos a las areas de la auditoria",
-17: "En espera de recepcion de requerimientos - SLA - 3 dias laborables",
-18: "Parcialmente recibidos los requerimientos de las areas",
-19: "Respuesta inicial de requerimientos remitidos de las areas",
-20: "Verificando items pendientes con areas (post-respuesta) evidencias",
-21: "Revisión inicial de las evidencias solicitadas - Trabajo de Campo",
-22: "Organización y clasificación de las evidencias por procesos o controles - Trabajo de Campo",
-23: "Realización de entrevistas y walkthroughs con el personal responsable - Trabajo de Campo",
-24: "Evaluación controles de TI sobre de las evidencias - Trabajo de Campo",
-25: "Ejecución de pruebas de los control - Trabajo de Campo",
-26: "Análisis preliminar de los resultados de las pruebas realizadas - Trabajo de Campo",
-27: "Identificacion y solicitud formal de evidencias adicionales requeridas - Trabajo de Campo",
-28: "Recepcion y análisis de las evidencias complementarias obtenidas - Trabajo de Campo",
-29: "Identificacion y registro preliminar de hallazgos y desviaciones - Trabajo de Campo",
-30: "Validación de los hallazgos con el área auditada - Trabajo de Campo",
-31: "Borradores de Formularios sobre de conclusiones y recomendaciones preliminares - Trabajo de Campo",
-32: "Revision interna (Equipo Auditoria) comparativa antescedentes Hallazgos- Trabajo de Campo",
-33: "Socializando evidencias recibidas por los auditados - reuniones - Trabajo de Campo",
-34: "En espera de nuevas evidencias luego del trabajo de campo",
-35: "Documentando incidencias encontradas en la matriz de formularios",
-36: "Parcialmente documentadas las incidencias en la matriz de formularios",
-37: "Enviada la matriz de formularios para aprobacion de gerente del area de auditoria",
-38: "Enviada la matriz de formularios para aprobacion del director del area de auditoria",
-39: "Socializando formularios con gerente y director de auditoria",
-40: "Pasando los formularios al formato estandar local luego de aprobados",
-41: "Reunion de presentacion de formularios con el area auditada",
-42: "Socializacion y/o cambios en formularios luego de reunion con el area auditada",
-43: "Actualizando documento de formularios luego de socializacion",
-44: "Envio de formularios a las areas auditadas por correo",
-45: "En espera de planes de accion por el area auditada - SLA - 5 dias",
-46: "Verificando respuesta de planes de accion - campos completos y firmas",
-47: "Preparando calificacion de riesgo final de la auditoria",
-48: "Preparando presentacion de cierre final con el presidente",
-49: "Actualizando formularios luego de socializacion con el presidente",
-50: "En espera de cambios o planes de accion luego de cierre",
-51: "Presentacion del comite de auditoria final",
-52: "Actualizacion de formularios luego de socializacion con el comite",
-53: "Cargar en teamMate la calificacion de riesgo final",
-54: "Documentacion en teamMate de la auditoria",
-55: "Parcialmente documentada la auditoria en teamMate",
-56: "Elaboracion de informe borrador final para VP de auditoria interna",
-57: "Envio de encuestas a los auditados luego de la auditoria",
-58: "En espera de encuestas a los auditados",
-59: "Preparacion del documento de calidad de la auditoria - QA Doc",
-60: "Completar documentacion en teamMate luego de tener toda la documentacion",
-61: "Cargar incidencias finales en teamMate y enlazarlas con planes de accion",
-62: "Auditoria abierta por el comite por temas pendientes",
-63: "Auditoria completada con temas de seguimiento abiertos",
-64: "Auditoria completada en su totalidad sin pendientes"
+17: "En espera de recepcion de requerimientos",
+18: "Parcialmente recibidos los requerimientos",
+19: "Respuesta inicial de requerimientos",
+20: "Verificando pendientes",
+21: "Revisión de evidencias",
+22: "Organización de evidencias",
+23: "Entrevistas",
+24: "Evaluación controles",
+25: "Pruebas de control",
+26: "Análisis resultados",
+27: "Solicitud de evidencias adicionales",
+28: "Recepción de evidencias",
+29: "Registro de hallazgos",
+30: "Validación hallazgos",
+31: "Borradores",
+32: "Revisión interna",
+33: "Socialización evidencias",
+34: "En espera evidencias",
+35: "Documentando incidencias",
+36: "Parcialmente documentadas",
+37: "Enviada para aprobación gerente",
+38: "Enviada para aprobación director",
+39: "Socialización interna",
+40: "Formato estándar",
+41: "Reunión con área",
+42: "Cambios formularios",
+43: "Actualización documento",
+44: "Envío formularios",
+45: "En espera planes",
+46: "Verificación planes",
+47: "Calificación riesgo",
+48: "Presentación cierre",
+49: "Actualización post cierre",
+50: "En espera cambios",
+51: "Comité auditoría",
+52: "Actualización comité",
+53: "Carga en TeamMate",
+54: "Documentación",
+55: "Parcialmente documentado",
+56: "Informe borrador",
+57: "Encuestas",
+58: "En espera encuestas",
+59: "Documento QA",
+60: "Completar documentación",
+61: "Carga incidencias",
+62: "Auditoría abierta",
+63: "Seguimiento abierto",
+64: "Auditoría completada"
 };
 
 function autocompletar() {
@@ -203,6 +192,23 @@ function autocompletar() {
         texto.value = "";
     }
 }
+
+function toggleCampos() {
+    const tipo = document.querySelector("select[name='tipo']").value;
+    const numero = document.getElementById("numero");
+    const texto = document.getElementById("texto");
+
+    if (tipo === "numero") {
+        numero.disabled = false;
+        texto.disabled = true;
+    } else {
+        numero.disabled = true;
+        texto.disabled = false;
+    }
+}
+
+// ejecutar al cargar
+toggleCampos();
 </script>
 
 </body>
