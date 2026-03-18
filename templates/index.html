@@ -90,6 +90,7 @@ Nivel                          : <span style="color: {{ resultado.color }}">{{ r
 <span style="color:#ef4444">2.50 - 0.00</span>  = NO SATISFACTORIO
 ---------------------------------------------------
 
+
 ============ GRAFICA DE CALIFICACIONES ============
 
       0    1    2    3    4
@@ -99,15 +100,17 @@ Nivel                          : <span style="color: {{ resultado.color }}">{{ r
 {% elif val == 3 %}{% set color = "#f59e0b" %}
 {% elif val == 2 %}{% set color = "#eab308" %}
 {% elif val == 1 %}{% set color = "#ef4444" %}
-{% else %}
-    {% set color = "#9ca3af" %}
+{% else %}{% set color = "#9ca3af" %}
 {% endif %}
 
-Proc {{ loop.index }}    
-<span style="color: {{ color }}">{{ "#####################  " [ :val*5] }}{{ val }}</span> 
+Proc {{ "%-12s"|format(loop.index) }}  
+<span style="color: {{ color }}">
+{{ "############################"[:val*5] }}
+</span> {{ "%3s"|format(val) }}
 
 {% endfor %}
 
+{# ---------------- CALIDAD INFO ---------------- #}
 {% set val = resultado.calidad %}
 {% if val == 4 %}{% set color = "#22c55e" %}
 {% elif val == 3 %}{% set color = "#f59e0b" %}
@@ -115,11 +118,13 @@ Proc {{ loop.index }}
 {% elif val == 1 %}{% set color = "#ef4444" %}
 {% else %}{% set color = "#9ca3af" %}
 {% endif %}
+
 Calidad Info     
 <span style="color: {{ color }}">
-{{ "#####################"[:val*5] }}
-</span> {{ val }}
+{{ "############################"[:val*5] }}
+</span> {{ "%3s"|format(val) }}
 
+{# ---------------- ENTREGA OPORT ---------------- #}
 {% set val = resultado.entrega %}
 {% if val == 4 %}{% set color = "#22c55e" %}
 {% elif val == 3 %}{% set color = "#f59e0b" %}
@@ -127,10 +132,12 @@ Calidad Info
 {% elif val == 1 %}{% set color = "#ef4444" %}
 {% else %}{% set color = "#9ca3af" %}
 {% endif %}
+
 Entrega Oport.   
 <span style="color: {{ color }}">
-{{ "#####################"[:val*5] }}
-</span> {{ val }}
+{{ "############################"[:val*5] }}
+</span> {{ "%3s"|format(val) }}
+
       0    1    2    3    4
 
 ---------------------------------------------------
