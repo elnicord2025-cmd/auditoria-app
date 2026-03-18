@@ -103,10 +103,8 @@ Nivel                          : <span style="color: {{ resultado.color }}">{{ r
 {% else %}{% set color = "#9ca3af" %}
 {% endif %}
 
-Proc {{ "%-12s"|format(loop.index) }}  
-<span style="color: {{ color }}">
-{{ "############################"[:val*5] }}
-</span> {{ "%3s"|format(val) }}
+Proc {{ loop.index }}  
+span style="color: {{ color }}">{{ "############################"[:val*5] }}</span>   {{ val }}
 
 {% endfor %}
 
@@ -120,10 +118,7 @@ Proc {{ "%-12s"|format(loop.index) }}
 {% endif %}
 
 Calidad Info     
-<span style="color: {{ color }}">
-{{ "############################"[:val*5] }}
-</span> {{ "%3s"|format(val) }}
-
+<span style="color: {{ color }}">{{ "############################"[:val*5] }}</span>   {{ val }}
 {# ---------------- ENTREGA OPORT ---------------- #}
 {% set val = resultado.entrega %}
 {% if val == 4 %}{% set color = "#22c55e" %}
@@ -134,9 +129,7 @@ Calidad Info
 {% endif %}
 
 Entrega Oport.   
-<span style="color: {{ color }}">
-{{ "############################"[:val*5] }}
-</span> {{ "%3s"|format(val) }}
+<span style="color: {{ color }}">{{ "############################"[:val*5] }}</span>   {{ val }}
 
       0    1    2    3    4
 
